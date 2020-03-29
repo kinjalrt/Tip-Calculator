@@ -1,58 +1,50 @@
 //
-//  ViewController.swift
+//  SettingsViewController.swift
 //  Tip Calculator
 //
-//  Created by Kinjal Reetoo on 3/26/20.
+//  Created by Kinjal Reetoo on 3/28/20.
 //  Copyright © 2020 Kinjal Reetoo. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class SettingsViewController: UIViewController {
+    
 
-    @IBOutlet weak var billField: UITextField!
-    
-    @IBOutlet weak var tipLabel: UILabel!
-    
-    @IBOutlet weak var totalLabel: UILabel!
-    
-    @IBOutlet weak var tipControl: UISegmentedControl!
+    @IBOutlet weak var defaultTipControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        billField.becomeFirstResponder()
         let defaults = UserDefaults.standard
         print(defaults.integer(forKey: "defaultTip"))
-        tipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTip")
+        defaultTipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTip")
+
         // Do any additional setup after loading the view.
     }
     
-    func cal(){
-        let bill = Double(billField.text!) ?? 0
-        let tipPercentages = [0.10, 0.15, 0.18, 0.20]
-        let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
-        let total = bill + tip
-        tipLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String(format: "$%.2f", total)
+    @IBAction func setDefaultTip(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        print("FIRSTTTT \(defaultTipControl.selectedSegmentIndex)")
+        defaults.set(defaultTipControl.selectedSegmentIndex, forKey: "defaultTip")
+        defaults.synchronize()
+        let d = UserDefaults.standard
+        print("HERE  \(d.integer(forKey: "defaultTip"))")
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        billField.becomeFirstResponder()
-
         print("view will appear")
         let defaults = UserDefaults.standard
         print(defaults.integer(forKey: "defaultTip"))
         
-        tipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTip")
-        cal()
+        defaultTipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTip")
         // This is a good place to retrieve the default tip percentage from UserDefaults
         // and use it to update the tip amount
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        billField.becomeFirstResponder()
         print("view did appear")
     }
 
@@ -65,13 +57,15 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         print("view did disappear")
     }
-
-    @IBAction func onTap(_ sender: Any) {
-        view.endEditing(true)
-    }
     
-    @IBAction func calculateTip(_ sender: Any) {
-        cal()
-    }
-}
+    /*
+    // MARK: - Navigation
 
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
