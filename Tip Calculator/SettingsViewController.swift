@@ -24,11 +24,9 @@ class SettingsViewController: UIViewController {
     
     @IBAction func setDefaultTip(_ sender: Any) {
         let defaults = UserDefaults.standard
-        print("FIRSTTTT \(defaultTipControl.selectedSegmentIndex)")
         defaults.set(defaultTipControl.selectedSegmentIndex, forKey: "defaultTip")
         defaults.synchronize()
         let d = UserDefaults.standard
-        print("HERE  \(d.integer(forKey: "defaultTip"))")
         
     }
     
